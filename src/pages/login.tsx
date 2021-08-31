@@ -22,9 +22,17 @@ const Login: React.FC = () => {
 				headers: {
 					'Content-Type': 'application/json',
 				},
-			})
-				.then((res) => res.json())
-				.then((data) => console.log(data));
+			}).then((res) => {
+				if (res.status === 200) {
+					console.log(res);
+					// redirect to tea list
+				} else {
+					return res.json().then((data) => {
+						const errorMessage = data.error.message ?? 'Auth failed!';
+						alert(errorMessage);
+					});
+				}
+			});
 		}
 		// history.pushState()
 	};
