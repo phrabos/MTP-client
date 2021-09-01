@@ -11,6 +11,35 @@ interface Tea {
 	vendorName?: string;
 }
 
+interface Auth {
+	kind: string;
+	localId: string;
+	email: string;
+	displayName: string;
+	idToken: string;
+	registered: boolean;
+	refreshToken: true;
+	expiresIn: string;
+	error: {
+		code: number;
+		message: string;
+		errors: [];
+	};
+}
+
+// interface AuthError {
+// 	error: {
+// 		code: number;
+// 		message: string;
+// 		errors: [];
+// 	};
+// }
+
+interface JSONResponse {
+	data?: Auth;
+	errors?: string;
+}
+
 const DEV = 'http://localhost:8000';
 
 export async function getAllTeas(): Promise<Tea[]> {
@@ -42,4 +71,30 @@ export async function updateTea(id: number, dataObj: Tea): Promise<Tea> {
 	const json = await data.json();
 
 	return json;
+}
+
+export async function userAuthenticate(
+	url: string,
+	email: string,
+	password: string
+): Promise<Auth> {
+	const response = await fetch(url, {
+		method: 'POST',
+		credentials: 'include',
+		body: JSON.stringify({
+			email,
+			password,
+		}),
+		headers: {
+			'Content-Type': 'application/json',
+		},
+	});
+
+	const { data, errors }: JSONResponse = await response.json();
+
+	if (data) return data;
+	else {
+		const err = new Error(errors ?? 'Unknown');
+		return Promise.reject(err);
+	}
 }

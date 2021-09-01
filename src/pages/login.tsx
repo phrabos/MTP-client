@@ -1,50 +1,41 @@
 import React, { useState, useRef } from 'react';
 import Nav from '../components/nav';
+import { userAuthenticate } from '../utils/apiUtils';
 
 const Login: React.FC = () => {
-	const [isLogin, setIsLogIn] = useState(true);
+	const [isLoginSelected, setisLoginSelected] = useState(true);
 	const emailInputRef = useRef<HTMLInputElement>(null);
 	const passwordInputRef = useRef<HTMLInputElement>(null);
 
 	const handleSubmit = (event: React.FormEvent): void => {
 		event.preventDefault();
-		const email = emailInputRef.current?.value;
-		const password = passwordInputRef.current?.value;
-		console.log(email, password);
-		if (isLogin) {
+
+		const email = emailInputRef.current?.value ?? '';
+		const password = passwordInputRef.current?.value ?? '';
+		let url;
+
+		if (isLoginSelected) {
+			url = 'http://localhost:8000/account/login';
 		} else {
-			fetch('http://localhost:8000/account/signup', {
-				method: 'POST',
-				body: JSON.stringify({
-					email,
-					password,
-				}),
-				headers: {
-					'Content-Type': 'application/json',
-				},
-			}).then((res) => {
-				if (res.status === 200) {
-					console.log(res);
-					// redirect to tea list
-				} else {
-					return res.json().then((data) => {
-						const errorMessage = data.error.message ?? 'Auth failed!';
-						alert(errorMessage);
-					});
-				}
-			});
+			url = 'http://localhost8000/account/signup';
 		}
+
+		userAuthenticate(url, email, password)
+			.then((res) => {
+				console.log(res);
+			})
+			.catch((err) => console.error(err));
 		// history.pushState()
 	};
 
 	const handleAuthMode = (): void => {
-		setIsLogIn((prevState) => !prevState);
+		setisLoginSelected((prevState) => !prevState);
 	};
 
 	return (
 		<>
 			<Nav />
-			<h3>{isLogin ? 'Sign In' : 'Sign Up'}</h3>
+			<h3>{isLoginSelected ? 'Sign In' : 'Sign Up'}</h3>
 			<form onSubmit={handleSubmit}>
 				<input
 					ref={emailInputRef}
@@ -58,9 +49,11 @@ const Login: React.FC = () => {
 					placeholder="password"
 					required
 				></input>
-				<button>{isLogin ? 'Sign In' : 'Create Account'}</button>
+				<button>{isLoginSelected ? 'Sign In' : 'Create Account'}</button>
 				<p style={{ cursor: 'pointer' }} onClick={handleAuthMode}>
-					{isLogin ? 'Create new account' : 'Login with existing account'}
+					{isLoginSelected
+						? 'Create new account'
+						: 'Login with existing account'}
 				</p>
 			</form>
 		</>
