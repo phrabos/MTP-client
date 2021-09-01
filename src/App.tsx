@@ -38,7 +38,6 @@ const App: React.FC = () => {
 						<TeaList />
 					</Route>
 				)}
-
 				{isLoggedIn && (
 					<Route exact path="/tea/:id">
 						<TeaDetail teaName="Shui Xian" />

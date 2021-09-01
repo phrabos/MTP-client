@@ -1,4 +1,4 @@
-interface Tea {
+export interface Tea {
 	id?: number;
 	name?: string;
 	cultivar?: string;
@@ -49,6 +49,19 @@ export async function deleteTea(
 ): Promise<Tea[] | { message: string }> {
 	const data = await fetch(`${DEV}/teas/${id}`, {
 		method: 'DELETE',
+	});
+	const json = await data.json();
+
+	return json;
+}
+
+export async function addTea(dataObj: Tea): Promise<Tea> {
+	const data = await fetch(`${DEV}/teas/`, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify(dataObj),
 	});
 	const json = await data.json();
 
