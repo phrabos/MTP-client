@@ -15,16 +15,11 @@ interface Auth {
 	kind: string;
 	localId: string;
 	email: string;
-	displayName: string;
+	displayName?: string;
 	idToken: string;
-	registered: boolean;
+	registered?: boolean;
 	refreshToken: true;
 	expiresIn: string;
-	error: {
-		code: number;
-		message: string;
-		errors: [];
-	};
 }
 
 // interface AuthError {
@@ -98,3 +93,11 @@ export async function userAuthenticate(
 		return Promise.reject(err);
 	}
 }
+export const logUserOut = async () => {
+	const res = await fetch(`${DEV}/account/logout`, {
+		credentials: 'include',
+	});
+	const json = await res.json();
+	localStorage.removeItem('TOKEN');
+	return json;
+};

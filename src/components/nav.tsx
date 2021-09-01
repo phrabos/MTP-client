@@ -1,7 +1,21 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '../store/redux';
+import { useHistory } from 'react-router-dom';
+import { logUserOut } from '../utils/apiUtils';
 
 const Nav: React.FC = () => {
+	const isLoggedIn = useSelector((state: RootState) => state.loggedIn);
+	const dispatch = useDispatch();
+	const history = useHistory();
+
+	const handleLogout = () => {
+		dispatch({ type: 'REMOVETOKEN' });
+		logUserOut();
+		history.replace('/');
+	};
+
 	return (
 		<nav>
 			<ul
@@ -16,18 +30,31 @@ const Nav: React.FC = () => {
 					border: '1px solid black',
 				}}
 			>
-				<li>
-					<Link to="/">Home</Link>
-				</li>
-				<li>
-					<Link to="/tea-list">Tea List</Link>
-				</li>
-				<li>
-					<Link to="/favorites">Favorites</Link>
-				</li>
-				<li>
-					<Link to="/">Logout</Link>
-				</li>
+				{!isLoggedIn && (
+					<li>
+						<Link to="/">Login</Link>
+					</li>
+				)}
+				{isLoggedIn && (
+					<li>
+						<Link to="/home">Home</Link>
+					</li>
+				)}
+				{isLoggedIn && (
+					<li>
+						<Link to="/tea-list">Tea List</Link>
+					</li>
+				)}
+				{isLoggedIn && (
+					<li>
+						<Link to="/favorites">Favorites</Link>
+					</li>
+				)}
+				{isLoggedIn && (
+					<li onClick={handleLogout}>
+						<Link to="/">Logout</Link>
+					</li>
+				)}
 			</ul>
 		</nav>
 	);
