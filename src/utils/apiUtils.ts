@@ -12,14 +12,20 @@ export interface Tea {
 }
 
 interface Auth {
-	kind: string;
-	localId: string;
-	email: string;
-	displayName?: string;
-	idToken: string;
-	registered?: boolean;
-	refreshToken: true;
-	expiresIn: string;
+	data: {
+		kind: string;
+		localId: string;
+		email: string;
+		displayName?: string;
+		idToken: string;
+		registered?: boolean;
+		refreshToken: true;
+		expiresIn: string;
+	};
+	user: {
+		username: string;
+		email: string;
+	};
 }
 
 // interface AuthError {
@@ -31,8 +37,9 @@ interface Auth {
 // }
 
 interface JSONResponse {
-	data?: Auth;
+	data?: Auth['data'];
 	errors?: string;
+	user?: Auth['user'];
 }
 
 const DEV = 'http://localhost:8000';
@@ -98,9 +105,9 @@ export async function userAuthenticate(
 		},
 	});
 
-	const { data, errors }: JSONResponse = await response.json();
+	const { data, user, errors }: JSONResponse = await response.json();
 
-	if (data) return data;
+	if (data && user) return { data, user };
 	else {
 		const err = new Error(errors ?? 'Unknown');
 		return Promise.reject(err);

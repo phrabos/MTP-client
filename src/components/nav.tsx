@@ -42,12 +42,17 @@ const Nav: React.FC = () => {
 				)}
 				{isLoggedIn && (
 					<li>
-						<Link to="/tea-list">Tea List</Link>
+						<Link to="/log">Tea Log</Link>
 					</li>
 				)}
 				{isLoggedIn && (
 					<li>
 						<Link to="/favorites">Favorites</Link>
+					</li>
+				)}
+				{isLoggedIn && (
+					<li>
+						<Link to="/profile">Profile</Link>
 					</li>
 				)}
 				{isLoggedIn && (
