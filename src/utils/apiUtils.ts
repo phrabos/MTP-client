@@ -1,3 +1,5 @@
+import { User } from '../store/redux';
+
 export interface Tea {
 	id?: number;
 	name?: string;
@@ -9,6 +11,7 @@ export interface Tea {
 	quantity?: number;
 	teaType?: string;
 	vendorName?: string;
+	userId?: number | null;
 }
 
 interface Auth {
@@ -22,10 +25,7 @@ interface Auth {
 		refreshToken: true;
 		expiresIn: string;
 	};
-	user: {
-		username: string;
-		email: string;
-	};
+	user: User;
 }
 
 // interface AuthError {
@@ -44,8 +44,8 @@ interface JSONResponse {
 
 const DEV = 'http://localhost:8000';
 
-export async function getAllTeas(): Promise<Tea[]> {
-	const data = await fetch(`${DEV}/teas`);
+export async function getAllTeas(id: number | null): Promise<Tea[]> {
+	const data = await fetch(`${DEV}/teas/${id}`);
 	const json = await data.json();
 
 	return json;

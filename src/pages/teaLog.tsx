@@ -13,6 +13,7 @@ import {
 const TeaLog: React.FC = () => {
 	const dispatch = useDispatch();
 	const teaArray = useSelector((state: RootState) => state.teaArray);
+	const user = useSelector((state: RootState) => state.user);
 	// const [teaArray, setTeaArray] = useState<Tea[]>([]);
 	const [loading, setLoading] = useState(false);
 	const [isAddTea, setIsAddTea] = useState(false);
@@ -34,10 +35,11 @@ const TeaLog: React.FC = () => {
 			cultivar: 'unknown',
 			harvestYear: 2019,
 			vendorName: 'Nannuoshan',
+			userId: user.id,
 		})
 			.then(() => {
 				setLoading(true);
-				return getAllTeas();
+				return getAllTeas(user.id);
 			})
 			.then((data) => {
 				dispatch({ type: 'GETTEALOG', teaArray: data });

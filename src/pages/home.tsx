@@ -7,9 +7,10 @@ import { getAllTeas } from '../utils/apiUtils';
 const Home: React.FC = () => {
 	const dispatch = useDispatch();
 	const teaArray = useSelector((state: RootState) => state.teaArray);
-
+	const user = useSelector((state: RootState) => state.user);
+	console.log('selector', user);
 	useEffect(() => {
-		getAllTeas().then((data) => {
+		getAllTeas(user.id).then((data) => {
 			dispatch({ type: 'GETTEALOG', teaArray: data });
 		});
 	}, [dispatch]);

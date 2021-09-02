@@ -33,6 +33,14 @@ const Login: React.FC = () => {
 			.then((res) => {
 				console.log(res);
 				dispatch({ type: 'SETTOKEN', token: res.data.idToken });
+				dispatch({
+					type: 'SETUSER',
+					user: {
+						id: res.user.id && +res.user.id,
+						username: res.user.username,
+						email: res.user.email,
+					},
+				});
 				localStorage.setItem('TOKEN', res.data.idToken);
 				history.replace('/home');
 			})
