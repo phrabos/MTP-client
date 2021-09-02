@@ -32,8 +32,16 @@ const Login: React.FC = () => {
 		userAuthenticate(url, email, password)
 			.then((res) => {
 				console.log(res);
-				dispatch({ type: 'SETTOKEN', token: res.idToken });
-				localStorage.setItem('TOKEN', res.idToken);
+				dispatch({ type: 'SETTOKEN', token: res.data.idToken });
+				dispatch({
+					type: 'SETUSER',
+					user: {
+						id: res.user.id && +res.user.id,
+						username: res.user.username,
+						email: res.user.email,
+					},
+				});
+				localStorage.setItem('TOKEN', res.data.idToken);
 				history.replace('/home');
 			})
 			.catch((err) => console.error(err));
