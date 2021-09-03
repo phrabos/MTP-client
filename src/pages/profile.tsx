@@ -4,12 +4,12 @@ import Nav from '../components/nav';
 import { RootState } from '../store/redux';
 
 const Profile: React.FC = () => {
-	const teaArray = useSelector((state: RootState) => state.teaArray);
+	const brewArray = useSelector((state: RootState) => state.brewArray);
 	return (
 		<>
 			<Nav />
 			<h1>Profile Page</h1>
-			<span>Number of teas logged: {teaArray.length}</span>
+			<span>Number of teas logged: {brewArray.length}</span>
 		</>
 	);
 };

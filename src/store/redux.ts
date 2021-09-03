@@ -1,24 +1,5 @@
 import { createStore } from 'redux';
-
-export interface User {
-	id: number | null;
-	email: string | null;
-	username: string | null;
-}
-
-interface AuthState {
-	loggedIn: Boolean;
-	idToken: String | null;
-	teaArray: any[];
-	user: User;
-}
-
-interface Action {
-	type: string;
-	token: string | null;
-	teaArray: any[];
-	user: User;
-}
+import { Action, AuthState } from '../utils/types';
 
 const initialToken = localStorage.getItem('TOKEN');
 
@@ -26,10 +7,11 @@ const initialState = {
 	loggedIn: !!initialToken,
 	idToken: initialToken,
 	teaArray: [],
+	brewArray: [],
 	user: {
-		id: null,
-		email: null,
-		username: null,
+		id: 0,
+		email: '',
+		username: '',
 	},
 };
 
@@ -42,6 +24,7 @@ const authReducer = (
 			loggedIn: true,
 			idToken: action.token,
 			teaArray: state.teaArray,
+			brewArray: state.brewArray,
 			user: state.user,
 		};
 	}
@@ -50,6 +33,7 @@ const authReducer = (
 			loggedIn: false,
 			idToken: '',
 			teaArray: state.teaArray,
+			brewArray: state.brewArray,
 			user: state.user,
 		};
 	}
@@ -58,6 +42,16 @@ const authReducer = (
 			loggedIn: state.loggedIn,
 			idToken: state.idToken,
 			teaArray: action.teaArray,
+			brewArray: state.brewArray,
+			user: state.user,
+		};
+	}
+	if (action.type === 'GETBREWLOG') {
+		return {
+			loggedIn: state.loggedIn,
+			idToken: state.idToken,
+			teaArray: state.teaArray,
+			brewArray: action.brewArray,
 			user: state.user,
 		};
 	}
@@ -66,6 +60,7 @@ const authReducer = (
 			loggedIn: state.loggedIn,
 			idToken: state.idToken,
 			teaArray: state.teaArray,
+			brewArray: state.brewArray,
 			user: action.user,
 		};
 	}
