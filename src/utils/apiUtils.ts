@@ -11,6 +11,13 @@ import { Auth, Brew, JSONResponse, Tea } from './types';
 const DEV = 'http://localhost:8000';
 
 export async function getAllTeas(id: number | null): Promise<Tea[]> {
+	const data = await fetch(`${DEV}/teas/user/${id}/teas`);
+	const json = await data.json();
+
+	return json;
+}
+
+export async function getSingleTea(id: number | null): Promise<Tea> {
 	const data = await fetch(`${DEV}/teas/${id}`);
 	const json = await data.json();
 

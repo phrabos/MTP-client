@@ -8,6 +8,7 @@ import {
 	// deleteTea,
 	getAllTeas,
 	getAllBrews,
+	// getSingleTea,
 	// Tea,
 	// updateTea,
 } from '../utils/apiUtils';
@@ -30,6 +31,7 @@ const TeaLog: React.FC = () => {
 		infusions: undefined,
 		notes: '',
 		tag: '',
+		teaID: 0,
 	});
 	const [teaFormInput, setTeaFormInput] = useState<Tea>({
 		teaName: undefined,
@@ -53,7 +55,7 @@ const TeaLog: React.FC = () => {
 
 	const handleBrewSubmit = (event: React.FormEvent): void => {
 		event.preventDefault();
-		addBrew({ ...brewFormInput, userID: user.id, teaID: 5 })
+		addBrew({ ...brewFormInput, userID: user.id })
 			.then(() => {
 				setLoading(true);
 				return getAllBrews(user.id);
@@ -68,7 +70,10 @@ const TeaLog: React.FC = () => {
 	const handleTeaSubmit = (event: React.FormEvent): void => {
 		event.preventDefault();
 		addTea({ ...teaFormInput, userID: user.id })
-			.then(() => {
+			.then((tea) => {
+				setBrewFormInput((prev) => {
+					return { ...prev, teaID: tea.id };
+				});
 				setLoading(true);
 				return getAllTeas(user.id);
 			})
@@ -102,6 +107,15 @@ const TeaLog: React.FC = () => {
 		});
 	};
 
+	const handleTeaClick = (event: React.MouseEvent<HTMLElement>): void => {
+		const { id } = event.target as HTMLInputElement;
+
+		setIsAddTea(false);
+		setIsAddBrew(true);
+		setBrewFormInput((prev) => {
+			return { ...prev, teaID: +id };
+		});
+	};
 	return (
 		<>
 			<Nav />
@@ -124,7 +138,11 @@ const TeaLog: React.FC = () => {
 						{teaArray.length > 0 &&
 							teaArray.map((tea) => {
 								return (
-									<p key={tea.id}>{`teaID: ${tea.id} name:${tea.teaName}`}</p>
+									<p
+										id={tea.id?.toString()}
+										onClick={handleTeaClick}
+										key={tea.id}
+									>{`teaID: ${tea.id} name:${tea.teaName}`}</p>
 								);
 							})}
 						<form onSubmit={handleTeaSubmit}>
