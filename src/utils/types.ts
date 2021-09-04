@@ -31,14 +31,13 @@ export interface Tea {
 	quantity?: number;
 	teaType?: string;
 	vendorName?: string;
-	userId?: number | null;
+	userID?: number | null;
 }
 
 export interface Brew {
 	id?: number;
 	teaID?: number;
 	userID?: number;
-	teaName?: string;
 	weight?: number;
 	waterVolume?: number;
 	temperature?: number;
@@ -46,8 +45,6 @@ export interface Brew {
 	infusions?: number;
 	notes?: string;
 	tag?: string;
-	teaType?: string;
-	vendorName?: string;
 }
 
 export interface Auth {

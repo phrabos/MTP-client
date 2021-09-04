@@ -36,7 +36,8 @@ export async function deleteTea(
 }
 
 export async function addTea(dataObj: Tea): Promise<Tea> {
-	const data = await fetch(`${DEV}/teas/`, {
+	console.log(dataObj);
+	const data = await fetch(`${DEV}/teas`, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
@@ -49,7 +50,8 @@ export async function addTea(dataObj: Tea): Promise<Tea> {
 }
 
 export async function addBrew(dataObj: Brew): Promise<Brew> {
-	const data = await fetch(`${DEV}/teas/`, {
+	console.log(dataObj);
+	const data = await fetch(`${DEV}/brews/`, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
@@ -57,7 +59,6 @@ export async function addBrew(dataObj: Brew): Promise<Brew> {
 		body: JSON.stringify(dataObj),
 	});
 	const json = await data.json();
-
 	return json;
 }
 

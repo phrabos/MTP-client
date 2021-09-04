@@ -7,14 +7,16 @@ import { getAllTeas, getAllBrews } from '../utils/apiUtils';
 const Home: React.FC = () => {
 	const dispatch = useDispatch();
 	const teaArray = useSelector((state: RootState) => state.teaArray);
+	console.log(teaArray);
 	const user = useSelector((state: RootState) => state.user);
 	console.log('selector', user);
 	useEffect(() => {
-		getAllTeas(user.id).then((teasArray) => {
-			dispatch({ type: 'GETTEALOG', teasArray });
+		getAllTeas(user.id).then((teaArray) => {
+			console.log(teaArray);
+			dispatch({ type: 'GETTEALOG', teaArray });
 		});
-		getAllBrews(user.id).then((brewsArray) => {
-			dispatch({ type: 'GETTEALOG', brewsArray });
+		getAllBrews(user.id).then((brewArray) => {
+			dispatch({ type: 'GETBREWLOG', brewArray });
 		});
 	}, [dispatch, user]);
 
