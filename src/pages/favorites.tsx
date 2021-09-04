@@ -16,7 +16,7 @@ const Favorites: React.FC = () => {
 			<button onClick={() => deleteTea(1).then(console.log)}>delete</button>
 			<button
 				onClick={() =>
-					updateTea(2, { teaType: 'dark tea', userId: 1 }).then(console.log)
+					updateTea(2, { teaType: 'dark tea', userID: 1 }).then(console.log)
 				}
 			>
 				update

@@ -1,32 +1,4 @@
-import { User } from '../store/redux';
-
-export interface Tea {
-	id?: number;
-	name?: string;
-	cultivar?: string;
-	elevation?: number;
-	harvestYear?: number;
-	inStock?: boolean;
-	origin?: string;
-	quantity?: number;
-	teaType?: string;
-	vendorName?: string;
-	userId?: number | null;
-}
-
-interface Auth {
-	data: {
-		kind: string;
-		localId: string;
-		email: string;
-		displayName?: string;
-		idToken: string;
-		registered?: boolean;
-		refreshToken: true;
-		expiresIn: string;
-	};
-	user: User;
-}
+import { Auth, Brew, JSONResponse, Tea } from './types';
 
 // interface AuthError {
 // 	error: {
@@ -36,16 +8,17 @@ interface Auth {
 // 	};
 // }
 
-interface JSONResponse {
-	data?: Auth['data'];
-	errors?: string;
-	user?: Auth['user'];
-}
-
 const DEV = 'http://localhost:8000';
 
 export async function getAllTeas(id: number | null): Promise<Tea[]> {
 	const data = await fetch(`${DEV}/teas/${id}`);
+	const json = await data.json();
+
+	return json;
+}
+
+export async function getAllBrews(id: number | null): Promise<Brew[]> {
+	const data = await fetch(`${DEV}/brews/${id}`);
 	const json = await data.json();
 
 	return json;
@@ -63,7 +36,8 @@ export async function deleteTea(
 }
 
 export async function addTea(dataObj: Tea): Promise<Tea> {
-	const data = await fetch(`${DEV}/teas/`, {
+	console.log(dataObj);
+	const data = await fetch(`${DEV}/teas`, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
@@ -72,6 +46,19 @@ export async function addTea(dataObj: Tea): Promise<Tea> {
 	});
 	const json = await data.json();
 
+	return json;
+}
+
+export async function addBrew(dataObj: Brew): Promise<Brew> {
+	console.log(dataObj);
+	const data = await fetch(`${DEV}/brews/`, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify(dataObj),
+	});
+	const json = await data.json();
 	return json;
 }
 

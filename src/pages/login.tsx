@@ -36,7 +36,7 @@ const Login: React.FC = () => {
 				dispatch({
 					type: 'SETUSER',
 					user: {
-						id: res.user.id && +res.user.id,
+						id: +res.user.id,
 						username: res.user.username,
 						email: res.user.email,
 					},
