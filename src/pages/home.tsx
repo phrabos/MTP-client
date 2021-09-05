@@ -24,43 +24,31 @@ const Home: React.FC = () => {
 
 	const recentTeas = (
 		arr1: Brew[],
-		arr2: Tea[]
-	): {
-		first: Tea | undefined;
-		second: Tea | undefined;
-		third: Tea | undefined;
-	} => {
+		arr2: Tea[],
+		index: number
+	): Tea | undefined => {
 		console.log(arr1, arr2);
 		const first = arr2.find(
-			(tea) => arr1[arr1.length - 1]?.teaID?.toString() === tea.id
+			(tea) => arr1[arr1.length - index]?.teaID?.toString() === tea.id
 		);
-		const second = arr2.find(
-			(tea) => arr1[arr1.length - 2]?.teaID?.toString() === tea.id
-		);
-		const third = arr2.find(
-			(tea) => arr1[arr1.length - 3]?.teaID?.toString() === tea.id
-		);
-		return {
-			first,
-			second,
-			third,
-		};
+
+		return first;
 	};
 
-	console.log('recentTeas', recentTeas(brewArray, teaArray));
+	console.log('recentTeas', recentTeas(brewArray, teaArray, 0));
 	return (
 		<>
 			<Nav />
 			<h1>Welcome to the home page...</h1>
 			<section>Recently Brewed Teas</section>
 			{brewArray[brewArray.length - 1] && (
-				<p>{recentTeas(brewArray, teaArray).first?.teaName}</p>
+				<p>{recentTeas(brewArray, teaArray, 1)?.teaName}</p>
 			)}
 			{brewArray[brewArray.length - 2] && (
-				<p>{recentTeas(brewArray, teaArray).second?.teaName}</p>
+				<p>{recentTeas(brewArray, teaArray, 2)?.teaName}</p>
 			)}
 			{brewArray[brewArray.length - 3] && (
-				<p>{recentTeas(brewArray, teaArray).third?.teaName}</p>
+				<p>{recentTeas(brewArray, teaArray, 3)?.teaName}</p>
 			)}
 			{brewArray[20] && <p>{brewArray[20].id}</p>}
 		</>
