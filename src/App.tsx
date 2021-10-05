@@ -10,7 +10,8 @@ import Favorites from './pages/favorites';
 import Home from './pages/home';
 import Login from './pages/login';
 import TeaDetail from './pages/teaDetail';
-import TeaList from './pages/teaList';
+import TeaLog from './pages/teaLog';
+import Profile from './pages/profile';
 
 const App: React.FC = () => {
 	const isLoggedIn = useSelector((state: RootState) => state.loggedIn);
@@ -34,14 +35,18 @@ const App: React.FC = () => {
 					</Route>
 				)}
 				{isLoggedIn && (
-					<Route exact path="/tea-list">
-						<TeaList />
+					<Route exact path="/log">
+						<TeaLog />
 					</Route>
 				)}
-
 				{isLoggedIn && (
 					<Route exact path="/tea/:id">
 						<TeaDetail teaName="Shui Xian" />
+					</Route>
+				)}
+				{isLoggedIn && (
+					<Route exact path="/profile">
+						<Profile />
 					</Route>
 				)}
 				<Route path="*">
