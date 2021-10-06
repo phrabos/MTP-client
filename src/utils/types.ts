@@ -62,7 +62,10 @@ export interface Auth {
 }
 
 export interface JSONResponse {
-	data?: Auth['data'];
-	errors?: string;
-	user?: Auth['user'];
+	data: Auth['data'];
+	user: Auth['user'];
+}
+
+export interface JSONAuthError {
+	error: string;
 }

@@ -44,7 +44,10 @@ const Login: React.FC = () => {
 				localStorage.setItem('TOKEN', res.data.idToken);
 				history.replace('/home');
 			})
-			.catch((err) => console.error(err));
+			.catch((err) => {
+				alert(err);
+				console.error(err);
+			});
 		// history.pushState()
 		// if (emailInputRef.current?.value) emailInputRef.current.value = '';
 		// if (passwordInputRef.current?.value) passwordInputRef.current.value = '';

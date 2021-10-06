@@ -1,4 +1,4 @@
-import { Auth, Brew, JSONResponse, Tea } from './types';
+import { Auth, Brew, JSONAuthError, JSONResponse, Tea } from './types';
 
 // interface AuthError {
 // 	error: {
@@ -70,6 +70,8 @@ export async function addBrew(dataObj: Brew): Promise<Brew> {
 }
 
 export async function updateTea(id: number, dataObj: Tea): Promise<Tea> {
+	try {
+	} catch (err) {}
 	const data = await fetch(`${DEV}/teas/${id}`, {
 		method: 'PATCH',
 		headers: {
@@ -87,23 +89,28 @@ export async function userAuthenticate(
 	email: string,
 	password: string
 ): Promise<Auth> {
-	const response = await fetch(url, {
-		method: 'POST',
-		credentials: 'include',
-		body: JSON.stringify({
-			email,
-			password,
-		}),
-		headers: {
-			'Content-Type': 'application/json',
-		},
-	});
+	try {
+		const response = await fetch(url, {
+			method: 'POST',
+			credentials: 'include',
+			body: JSON.stringify({
+				email,
+				password,
+			}),
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		});
 
-	const { data, user, errors }: JSONResponse = await response.json();
-
-	if (data && user) return { data, user };
-	else {
-		const err = new Error(errors ?? 'Unknown');
+		if (response.status === 400) {
+			const { error }: JSONAuthError = await response.json();
+			return Promise.reject(error);
+		} else {
+			const { data, user }: JSONResponse = await response.json();
+			return { data, user };
+		}
+	} catch (err) {
+		console.error(err);
 		return Promise.reject(err);
 	}
 }
